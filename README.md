@@ -94,7 +94,7 @@ when the tPU unit gets the .bin file which is written by binary code, you can se
 
  ### **CDecode**
  ```c++
-** <CCDecode.h> **
+<CCDecode.h>
  
 #include <iostream>
 #include "CCode.h" 
