@@ -9,7 +9,7 @@ Now I'll go on a explaination each code a little bit in detail.
 > tPU is the abbreviation of Tiny Process Unit. It is composed of 3 Units as  CDecode, CExecute, and CRegsiter.
 Also, To explain all the processes of tPU, we should add CMemory and CCode. 
 
->## Contruction of tPU by Image
+>## Structure of tPU by Image
 >
 >
 
