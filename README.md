@@ -6,7 +6,8 @@ Now I'll go on a explaination each code a little bit in detail.
 
 > ## tPU
 > 
-> tPU is the abbreviation of Tiny Process Unit. It is composed of 3 Units as  CDecode, CExecute, and CRegsiter. Also, To explain all the processes of tPU, we should add CMemory and CCode. 
+> tPU is the abbreviation of Tiny Process Unit. It is composed of 3 Units as  CDecode, CExecute, and CRegsiter.
+Also, To explain all the processes of tPU, we should add CMemory and CCode. 
 
 > ## Composition
 > 1. [CCode](README.md#CCode)
@@ -23,7 +24,8 @@ Now I'll go on a explaination each code a little bit in detail.
   
   ### **CCode** 
 
-CCode Part is the starting point that can do upload Binary code which has to be executed by tPU. It is implemented by the technique of file i/o in C++ grammar. Let's see the code together. 
+CCode Part is the starting point that can do upload Binary code which has to be executed by tPU.
+It is implemented by the technique of file i/o in C++ grammar. Let's see the code together. 
 
 ```c++
 <CCode.h>
@@ -90,7 +92,8 @@ string& CFlash1KWord::code_at(int addr){
 	return m_code[addr];
 }
 ```
-when the tPU unit gets the .bin file which is written by binary code, you can see the technique of filei/o.  Also, this code has the function which change the string of binary code to real binary number sequence.  
+when the tPU unit gets the .bin file which is written by binary code, you can see the technique of filei/o.
+Also, this code has the function which change the string of binary code to real binary number sequence.  
 
  ### **CDecode**
  ```c++
