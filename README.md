@@ -94,7 +94,7 @@ when the tPU unit gets the .bin file which is written by binary code, you can se
 
  ### **CDecode**
  ```c++
-<CCDecode.h>
+** <CCDecode.h> **
  
 #include <iostream>
 #include "CCode.h" 
@@ -240,5 +240,351 @@ bool CT1DecodeDirectFetch::do_decode(){
 }
 
  ```
+  
+ ### **CExecute**
+ ```c++
+ 
+ <CExecute.h>
+ 
+#include <iostream>
+#include <stdlib.h>
+#include "CDecode.h"
+#include "CRegister.h"
+#include "CMemory.h"
+#pragma once
+
+using namespace std;
+
+class CExecute {
+public:
+    CExecute(){}
+    virtual ~CExecute(){}
+};
+
+class CT1ExecuteTinyUnit: public CExecute{
+public:
+    CT1ExecuteTinyUnit(CT1DecodeDirectFetch& decode,C16RegisterFile& regs,CSRAM_256w& mems) 
+    : m_decode_unit(decode), m_regs(regs), m_mems(mems){ }//initiate private member value
+    // m_deocde_unit = decode;
+    // m_regs = regs;
+    virtual ~CT1ExecuteTinyUnit(){ }
+
+    int do_execute();
+
+private:
+
+    CT1DecodeDirectFetch& m_decode_unit;
+    C16RegisterFile&      m_regs;
+    CSRAM_256w&           m_mems;
+
+};
+
+<CExecute.cpp>
+
+#include "CExecute.h"
+
+int clks[10] = {8,8,12,6,4,4,12,30,2,12};
+
+int CT1ExecuteTinyUnit::do_execute(){
+   //MOV3 R1 #2 
+    if(m_decode_unit.get_opcode() == MOV3){
+
+       unsigned int reg_index = m_decode_unit.get_op1();
+                int data = m_decode_unit.get_op2();
+       m_regs.write_on_reg(reg_index,data);
+       
+       m_regs.set_PC(m_regs.get_PC()+1);   
+        return clks[MOV3];
+
+        }else if(m_decode_unit.get_opcode() == ADD){
+
+            unsigned int reg_n = m_decode_unit.get_op1();
+            unsigned int reg_m = (m_decode_unit.get_op2() >> 4) & 0XF; //4bit masking course
+     
+            int Rn = m_regs.read_from_reg(reg_n);
+            int Rm = m_regs.read_from_reg(reg_m);
+
+            Rn = Rn + Rm;
+       
+            m_regs.write_on_reg(reg_n, Rn);
+    
+            m_regs.set_PC(m_regs.get_PC()+1);   
+             
+            return clks[ADD];
+
+
+             }else if(m_decode_unit.get_opcode() == SUB){
+
+                unsigned int reg_n = m_decode_unit.get_op1();
+                unsigned int reg_m = (m_decode_unit.get_op2() >> 4)& 0XF;
+     
+                int Rn = m_regs.read_from_reg(reg_n);
+                int Rm = m_regs.read_from_reg(reg_m);
+
+                Rn = Rn - Rm;
+       
+                m_regs.write_on_reg(reg_n, Rn);
+                 
+                m_regs.set_PC(m_regs.get_PC()+1);   
+               
+                return clks[SUB];
+               
+    
+                }else if(m_decode_unit.get_opcode() == MOV0){
+
+                    unsigned int reg_n = m_decode_unit.get_op1();
+                    unsigned int mem_addr = m_decode_unit.get_op2()& 0xFF; 
+                    //8bit masking course 
+     
+                    int memory_data = m_mems.read_from_memory(mem_addr);
+                    
+                    m_regs.write_on_reg(reg_n, memory_data);
+                       
+                    m_regs.set_PC(m_regs.get_PC()+1);   
+                    return clks[MOV0];
+        
+                    
+
+                }else if(m_decode_unit.get_opcode() == MOV1){
+
+                    unsigned int reg_n = m_decode_unit.get_op1();
+                    unsigned int mem_addr = m_decode_unit.get_op2()& 0xFF;
+     
+                    int Reg_data = m_regs.read_from_reg(reg_n);
+                    
+                    m_mems.write_on_memory(mem_addr,Reg_data);
+                       
+                    m_regs.set_PC(m_regs.get_PC()+1);   
+                    return clks[MOV1];
+    
+   
+
+                }else if(m_decode_unit.get_opcode() == MUL){
+                     unsigned int reg_n = m_decode_unit.get_op1();
+                     unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xf;
+
+                     int Rn = m_regs.read_from_reg(reg_n);
+                     int Rm = m_regs.read_from_reg(reg_m);
+
+                     Rn = Rn * Rm;
+
+                     m_regs.write_on_reg(reg_n, Rn);
+
+                     m_regs.set_PC(m_regs.get_PC()+1);
+
+                    return clks[MUL];
+                                                 
+                }else if(m_decode_unit.get_opcode() == JZ){
+                     unsigned int reg_n = m_decode_unit.get_op1();
+                              int offset = m_decode_unit.get_op2();
+
+                     int Rn = m_regs.read_from_reg(reg_n);
+                     m_regs.set_PC(m_regs.get_PC()+1);
+
+                     if(Rn == 0){
+                        int pc = m_regs.get_PC();
+                        m_regs.set_PC(pc+offset);
+                     }
+
+                     return clks[JZ];
+                   
+                }else if(m_decode_unit.get_opcode() == MOV2){
+
+                    unsigned int reg_n = m_decode_unit.get_op1();
+                    unsigned int reg_m = m_decode_unit.get_op2()& 0xF;
+                    int reg_n_data = m_regs.read_from_reg(reg_n); 
+                    int reg_m_data = m_regs.read_from_reg(reg_m);
+                    if(reg_n_data > 255){
+                        cout <<"Cannot execute MOV2" << endl;
+                        exit(-1);
+                    }
+                    else m_mems.write_on_memory(reg_n_data,reg_m_data);
+
+                    m_regs.set_PC(m_regs.get_PC()+1);   
+                    
+                    return clks[MOV2];
+                    
+                }else if(m_decode_unit.get_opcode() == MOV4){
+
+                    unsigned int reg_n = m_decode_unit.get_op1();
+                    unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xF;
+     
+                    int reg_m_data = m_regs.read_from_reg(reg_m);
+                    m_regs.write_on_reg(reg_n,reg_m_data);
+
+                    m_regs.set_PC(m_regs.get_PC()+1);   
+                    return clks[MOV4];
+    
+                
+                }else if(m_decode_unit.get_opcode() == MOV5){
+
+                    unsigned int reg_n = m_decode_unit.get_op1();
+                    unsigned int reg_m = m_decode_unit.get_op2()& 0xF;
+                    int reg_m_data = m_regs.read_from_reg(reg_m);
+                    if(reg_m_data > 255){
+                        cout << "Cannot execute MOV5" <<endl;
+                        exit(-1);
+                    }else{
+                       int data_in_memory_regm_data = m_mems.read_from_memory(reg_m_data);
+                    
+                       m_regs.write_on_reg(reg_n,data_in_memory_regm_data);
+                    }   
+                    m_regs.set_PC(m_regs.get_PC()+1); 
+                       
+                    return clks[MOV5];
+                
+               }else{
+                       cout<<"not executable instruction, not yet implemented."<<endl;
+                                 return false;
+               }
+    
+}
+```
+
+### **CMemory**
+```c++
+<CMemory>
+
+#include <iostream>
+
+#pragma once
+
+using namespace std;
+
+class CMemory{
+public: 
+    CMemory(){}
+    virtual ~CMemory(){}
+};
+
+class CSRAM_256w: public CMemory{
+
+public: 
+    CSRAM_256w(){}
+    virtual ~CSRAM_256w(){}
+
+    void write_on_memory(unsigned int index, int data){ m_mems[index] = data; }; 
+    int read_from_memory(unsigned int index) {return m_mems[index];};
+    
+    void show_mems(unsigned int start_addr, unsigned int end_addr);
+
+private:
+    int m_mems[256];
+  
+};
+
+<CMemory.cpp>
+
+#include "CMemory.h"
+
+void CSRAM_256w :: show_mems(unsigned int start_addr, unsigned int end_addr){
+
+    
+    cout<< "------ memory Dump (addr: " << start_addr << "~" << end_addr << " )" << endl;
+    
+    for(unsigned int i = start_addr; i<=end_addr; i++){
+        cout << read_from_memory(i) << " ";
+    }
+    cout << endl; 
+};
+
+```
+### **CRegister**
+```c++
+
+<CRegsiter.h>
+
+#include <iostream>
+#pragma once
+using namespace std;
+
+class CRegister {
+public:
+    CRegister(){ }
+    virtual ~CRegister(){ }
+};
+
+class C16RegisterFile : public CRegister{
+public:
+    C16RegisterFile():m_PC(0) {}
+    virtual ~C16RegisterFile() {}
+
+    void write_on_reg(unsigned int index, int data){m_regs[index] = data;}
+    int read_from_reg(unsigned int index)          {return m_regs[index];}
+    
+    int get_PC(){return m_PC;}
+    void set_PC(int pc){m_PC = pc;}
+    void show_regs();
+
+private:
+    int m_regs[16];
+    int m_PC;
+};
+
+<CRegister.cpp>
+
+#include "CRegister.h"
+
+void C16RegisterFile::show_regs(){
+    cout << "------ register file ------" << endl;
+    
+    for(int i = 0; i<16; i++){
+        cout <<"REG"<<i<<": "<< read_from_reg(i)<<endl;
+    }
+}
+
+```
+
+## Main.cpp
+```c++
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include "CCode.h"
+#include "CDecode.h"
+#include "CExecute.h"
+#include "CRegister.h"
+#include "CMemory.h"
+
+using namespace std;
+
+int main(int argc, char* argv[]){
+	if(argc != 3){
+		cout << "tpu <input file><line> \n";
+		return -1;
+	}
+	CFlash1KWord code_memory(argv[1], atoi(argv[2]));
+	for(int i=0; i<atoi(argv[2]); i++){
+		cout << code_memory.code_at(i) << endl;
+	}
+	
+	CT1DecodeDirectFetch decode(code_memory);
+    C16RegisterFile      regs;
+    CSRAM_256w           mems;
+
+    CT1ExecuteTinyUnit   execute(decode, regs, mems);
+    
+    int size = atoi(argv[2]);
+	int total_clks = 0;
+    //for(int i=0; i<atoi(argv[2]); i++){
+	while(regs.get_PC() < size){    
+        decode.do_fetch_from(regs.get_PC());
+        //decode.do_fetch_from(i);
+		decode.do_decode();
+		decode.show_instruction();
+        total_clks += execute.do_execute();
+    }
+
+       cout<<"After excuting instruction ... " << endl;
+       cout<<"Total clocks: " << total_clks << endl;
+       regs.show_regs();
+       mems.show_mems(0,74);
+       
+}
+
+```
+
+
+## Image of Execution
  
 
