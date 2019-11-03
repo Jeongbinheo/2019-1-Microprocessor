@@ -11,8 +11,8 @@ Also, To explain all the processes of tPU, we should add CMemory and CCode.
 
 >## Structure of tPU by Image
 > ![structure][image]
-   [image]: https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2
->
+[image]: https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2
+
 
 > ## Composition
 > 1. [CCode](README.md#CCode)
