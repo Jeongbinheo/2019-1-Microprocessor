@@ -4,7 +4,6 @@
 
 CPU, RAM, M0EMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 가르쳐주신 코드임을 먼저 밝혀드립니다.
 
-
 > ## tPU
  
 tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3부분으로 분류 될 수 있습니다. 
