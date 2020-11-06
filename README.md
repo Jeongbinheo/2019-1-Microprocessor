@@ -1,7 +1,8 @@
 # Microprocessor
 > ## Introduction
 2019SS ELEC323 마이크로프로세서 수업에서 배운 Mini CPU(이하 tPU)를 C++ 언어를 이용해 구현한 코드들에 대한 설명입니다.
-CPU, RAM, MEMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 가르쳐주신 코드임을 먼저 밝혀드립니다.
+
+CPU, RAM, M0EMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 가르쳐주신 코드임을 먼저 밝혀드립니다.
 
 > ## tPU
  
@@ -28,7 +29,8 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
  
  
  
-  > **CCode** 
+  > ### **CCode**
+  
    CCode 는 tPU가 실행할 Binary code를 업로드하는 과정을 구현한 부분으로
 
    C++ 언어의 file i/o 문법을 사용하여 구현하였습니다.
