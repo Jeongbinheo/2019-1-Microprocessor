@@ -11,21 +11,21 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
 또한, tPU의 동작을 완전하게 설명하기 위해서는 CMemory와 CCode라는 부분도 추가적으로 필요합니다.
 
 >## Structure of tPU by Image
-> ![structure](https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2)
+![structure](https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2)
 
 
 > ## Composition
 > 1. [CCode](README.md#CCode)
->
-> 2. [CDecode](README.md#CDecode)
->
-> 3. [CExecute](README.md#CExecute)
->
-> 4. [CMemory](README.md#CMemory)
->
-> 5. [CRegister](README.md#CRegister)
->
->
+
+2. [CDecode](README.md#CDecode)
+
+3. [CExecute](README.md#CExecute)
+
+4. [CMemory](README.md#CMemory)
+
+5. [CRegister](README.md#CRegister)
+
+
  
  
  
