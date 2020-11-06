@@ -1,17 +1,13 @@
 # Microprocessor
 > ## Introduction
-
-The codes of Lecture of Microprocessor are saved in this repository.
-
-After Understanding the operation of Microcontroller CPU,  I made mini CPU(we called it tPU) by C++ codes in Lecture of Microprocessor which is proceeded by Prof. D.J.Park. 
-
-Now I'll go on a explaination each code a little bit in detail. 
+2019SS ELEC323 마이크로프로세서 수업에서 배운 Mini CPU(이하 tPU)를 C++ 언어를 이용해 구현한 코드들에 대한 설명입니다.
+CPU, RAM, MEMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 가르쳐주신 코드임을 먼저 밝혀드립니다.
 
 > ## tPU
  
-tPU is the abbreviation of Tiny Process Unit. It is composed of 3 Units as  CDecode, CExecute, and CRegsiter.
+tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3부분으로 분류 될 수 있습니다. 
 
-Also, To explain all the processes of tPU, we should add CMemory and CCode. 
+또한, tPU의 동작을 완전하게 설명하기 위해서는 CMemory와 CCode라는 부분도 추가적으로 필요합니다.
 
 >## Structure of tPU by Image
 > ![structure](https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2)
@@ -28,7 +24,7 @@ Also, To explain all the processes of tPU, we should add CMemory and CCode.
 >
 > 5. [CRegister](README.md#CRegister)
 >
-> 
+ 
   
   ### **CCode** 
 
