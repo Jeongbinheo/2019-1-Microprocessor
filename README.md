@@ -120,98 +120,26 @@ CCode를 통해 받아들인 비트열을 OPCODE, OPERAND1, OPERAND2로 분해�
    #### [CDecode.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.cpp) (클릭 시 전체 코드 페이지로 이동)
    #### [CDecode.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.h) (클릭 시 전체 코드 페이지로 이동)
 	 
- ```c++
-** <CCDecode.h> **
- 
-#include <iostream>
-#include "CCode.h" 
-#pragma once
+```c++
 
-using namespace std;
- 
-enum {R0=0,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14,R15};
-enum {MOV0=0,MOV1,MOV2,MOV3,ADD,SUB,JZ,MUL,MOV4,MOV5};
-class CDecode{
-public:
-	CDecode(){ }
-	virtual ~CDecode(){ }
-};
-
- 
 typedef struct {
 	unsigned int OPCODE : 4;
 	unsigned int OP1    : 4;
 		 int OP2    : 8;
 } SInstruction;
+```
 
-class CT1DecodeDirectFetch : public CDecode{
-public:
-	CT1DecodeDirectFetch(CFlash1KWord& code) : m_code_memory(code){};
-	virtual ~CT1DecodeDirectFetch() { }
+    Execution Unit에 사용되는 Instruction Code는 struct로 다음과 같은 비트로 정의됨. 
+      OPCODE : 4bit
+      OPERAND1: 4bit
+      OPERAND2: 8bit 
 
-	bool do_fetch_from(int PC);
-	bool do_decode();
-	void show_instruction();
-
-    unsigned int get_opcode() {return m_instruction.OPCODE;}
-    unsigned int get_op1() {return m_instruction.OP1;}
-             int get_op2() {return m_instruction.OP2;}
-
-
-private:
- 
-	CFlash1KWord& m_code_memory;
-	string m_inst_buffer;
-	SInstruction m_instruction;
-
-};
-
+```c++
 
 <CDecode.cpp>
 
  #include "CDecode.h"
 
-bool CT1DecodeDirectFetch::do_fetch_from(int PC){
-	if(PC>=0&& PC < m_code_memory.code_memory_size()){
-		m_inst_buffer = m_code_memory.code_at(PC);
-        cout << "Fetching from code memory at " << PC << endl;
-		return true;
-	}
-	else 
-		return false;
-}
-
-void CT1DecodeDirectFetch::show_instruction(){
-	if(m_instruction.OPCODE == MOV3){
-		cout <<"MOV3 " << "R" << m_instruction.OP1 << ", #" << m_instruction.OP2 << endl;
-    }else if(m_instruction.OPCODE == ADD){
-		unsigned int op2 = (m_instruction.OP2 >> 4) & 0xF;
-        cout <<"ADD " << "R" << m_instruction.OP1 << ", R" << op2 << endl;
-    }else if(m_instruction.OPCODE == SUB){
-        unsigned int op2 = (m_instruction.OP2 >> 4) & 0xF;
-		cout <<"SUB " << "R" << m_instruction.OP1 << ", R" << op2 << endl;
-    }else if(m_instruction.OPCODE == MOV0){
-        unsigned int op2 = m_instruction.OP2 & 0xFF; //eight bit particle;
-		cout <<"MOV0 " << "R" << m_instruction.OP1 << ", [" << op2 << "]" << endl;
-    }else if(m_instruction.OPCODE == MOV1){
-        unsigned int op2 = m_instruction.OP2 & 0xFF;
-		cout <<"MOV1 [" << op2 << "], R" << m_instruction.OP1 << endl;
-    }else if(m_instruction.OPCODE == MUL){
-        unsigned int op2 =(m_instruction.OP2>>4) & 0xF;
-		cout <<"MUL " << "R" << m_instruction.OP1 << " , R" << op2 << endl;
-    }else if(m_instruction.OPCODE == JZ){
-		cout <<"JZ " << "R" << m_instruction.OP1 << ", " << m_instruction.OP2 << endl;
-    }else if(m_instruction.OPCODE == MOV2){
-        unsigned int op2 = m_instruction.OP2 & 0xF;
-		cout <<"MOV2 [R" << m_instruction.OP1 << "], R" << op2 << endl;
-    }else if(m_instruction.OPCODE == MOV4){
-        unsigned int op2 = (m_instruction.OP2>>4) & 0xF;
-		cout <<"MOV4 R" << m_instruction.OP1 <<", R"<< op2 << endl;
-    }else if(m_instruction.OPCODE == MOV5){
-        unsigned int op2 = m_instruction.OP2 & 0xF;
-        cout <<"MOV5 R" << m_instruction.OP1 <<" [R"<< op2 <<"]"<< endl;
-    }
-}
 
 bool CT1DecodeDirectFetch::do_decode(){
 
