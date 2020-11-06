@@ -4,18 +4,20 @@
 
 CPU, RAM, M0EMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 가르쳐주신 코드임을 먼저 밝혀드립니다.
 
+<PR>
+	
 > ## tPU
  
 tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3부분으로 분류 될 수 있습니다. 
 
 또한, tPU의 동작을 완전하게 설명하기 위해서는 CMemory와 CCode라는 부분도 추가적으로 필요합니다.
-
+<PR>
 
 >## Structure of tPU by Image
 ![structure](https://blogfiles.pstatic.net/MjAxOTExMDNfMzEg/MDAxNTcyNzYyNjkwOTA3.wLwguXI5r4-XB7BHpWT0FR598g-_hOhOz96T2oEXdRQg.BLTL2pKgojD6CwGj4BhjYXIunjdaFCKgG-0-a_qR3r8g.JPEG.hdh988/tPU.jpg?type=w2)
 
 
-
+<PR>
 > ## Composition
 1. [CCode](README.md#CCode)
 
@@ -28,7 +30,7 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
 5. [CRegister](README.md#CRegister)
 
 
- 
+<PR>
   > ### CCode
   
    CCode 는 tPU가 실행할 Binary code를 업로드하는 과정을 구현한 부분으로
