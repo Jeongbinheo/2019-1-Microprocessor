@@ -115,9 +115,9 @@ Also, this code has the function which change the string of binary code to real 
       
       전체 코드는 길지만 bit masking하는 코드에 대해서 알아보자 
  
-         ###  `>>  Let's see the Code`  
-	 [CDecode.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.cpp) (클릭 시 전체 코드 페이지로 이동)
-	 [CDecode.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.h) (클릭 시 전체 코드 페이지로 이동)
+   ####  `>>  Let's see the Code`  
+   #### [CDecode.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.cpp) (클릭 시 전체 코드 페이지로 이동)
+   #### [CDecode.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.h) (클릭 시 전체 코드 페이지로 이동)
 	 
  ```c++
 ** <CCDecode.h> **
