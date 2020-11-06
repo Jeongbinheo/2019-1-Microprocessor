@@ -37,7 +37,9 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
 
    헤더파일에는 두가지 Class의 함수, 변수에 대해 기술되어 있고,
 
-   .cpp파일에는 메모장파일(.bin)으로 부터 읽어온 Character를 숫자열로 변환하는 기능을 구현함.
+   .cpp파일에는 메모장파일(.bin)으로 부터 읽어온 Character를 숫자열로 변환하는 기능을 구현함. 
+    
+       ###  `>>  Let's see the Code`  [Stack.c](https://github.com/Jeongbinheo/Datastructure/blob/master/stack.c) (클릭 시 전체 코드 페이지로 이동)
 
 ```c++
 <CCode.h>
@@ -109,6 +111,14 @@ Also, this code has the function which change the string of binary code to real 
 
 
    > **CDecode**
+      CCode를 통해 받아들인 비트열을 OPCODE, OPERAND1, OPERAND2로 분해하고 EXECUTION 단에 넘겨주는 역할을 하는 Decoder단을 구현한 코드로 
+      
+      전체 코드는 길지만 bit masking하는 코드에 대해서 알아보자 
+ 
+         ###  `>>  Let's see the Code`  
+	 [CDecode.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.cpp) (클릭 시 전체 코드 페이지로 이동)
+	 [CDecode.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.h) (클릭 시 전체 코드 페이지로 이동)
+	 
  ```c++
 ** <CCDecode.h> **
  
