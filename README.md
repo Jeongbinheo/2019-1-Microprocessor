@@ -26,16 +26,16 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
 >
 >
  
-  
-  
- > ### **CCode** 
-CCode 는 tPU가 실행할 Binary code를 업로드하는 과정을 구현한 부분으로
+ 
+ 
+  > **CCode** 
+   CCode 는 tPU가 실행할 Binary code를 업로드하는 과정을 구현한 부분으로
 
-C++ 언어의 file i/o 문법을 사용하여 구현하였습니다.
+   C++ 언어의 file i/o 문법을 사용하여 구현하였습니다.
 
-헤더파일에는 두가지 Class의 함수, 변수에 대해 기술되어 있고,
+   헤더파일에는 두가지 Class의 함수, 변수에 대해 기술되어 있고,
 
-.cpp파일에는 메모장파일(.bin)으로 부터 읽어온 Character를 숫자열로 변환하는 기능을 구현함.
+   .cpp파일에는 메모장파일(.bin)으로 부터 읽어온 Character를 숫자열로 변환하는 기능을 구현함.
 
 ```c++
 <CCode.h>
@@ -106,7 +106,7 @@ when the tPU unit gets the .bin file which is written by binary code, you can se
 Also, this code has the function which change the string of binary code to real binary number sequence.  
 
 
-> ### **CDecode**
+   > **CDecode**
  ```c++
 ** <CCDecode.h> **
  
