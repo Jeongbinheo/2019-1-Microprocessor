@@ -137,7 +137,7 @@ typedef struct {
 ```
 
 
-   ## **`Bit Masking ` 에 해당하는 함수코드**
+   #### **`Bit Masking ` 에 해당하는 함수코드**
        .bin 파일에서 불러온 비트배열의 각 자리수별로 OR연산(|=)을 하여 m_instruction의 필드인 OPCODE,OP1,OP2를 정의하는 과정을 보여줌
 
 ```c++
