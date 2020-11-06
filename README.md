@@ -111,9 +111,10 @@ Also, this code has the function which change the string of binary code to real 
 
 
    > **CDecode**
-      CCode를 통해 받아들인 비트열을 OPCODE, OPERAND1, OPERAND2로 분해하고 EXECUTION 단에 넘겨주는 역할을 하는 Decoder단을 구현한 코드로 
+   
+    CCode를 통해 받아들인 비트열을 OPCODE, OPERAND1, OPERAND2로 분해하고 EXECUTION 단에 넘겨주는 역할을 하는 Decoder단을 구현한 코드로 
       
-      전체 코드는 길지만 bit masking하는 코드에 대해서 알아보자 
+    전체 코드는 길지만 bit masking하는 코드에 대해서 알아보자 
  
    ####  `>>  Let's see the Code`  
    #### [CDecode.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CDecode.cpp) (클릭 시 전체 코드 페이지로 이동)
