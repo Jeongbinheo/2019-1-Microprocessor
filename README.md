@@ -127,12 +127,14 @@ typedef struct {
 	unsigned int OP1    : 4;
 		 int OP2    : 8;
 } SInstruction;
-```
+
 
     Execution Unit에 사용되는 Instruction Code는 struct로 다음과 같은 비트로 정의됨. 
       OPCODE : 4bit
       OPERAND1: 4bit
       OPERAND2: 8bit 
+
+```
 
 ```c++
 
