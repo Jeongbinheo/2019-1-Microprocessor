@@ -1,6 +1,6 @@
 # 2019-1-Microprocessor
 > ## Introduction
-2019SS ELEC323 마이크로프로세서 수업에서 배운 Mini CPU(이하 tPU)를 C++ 언어를
+2019-1학기 ELEC323 마이크로프로세서 수업에서 배운 Mini CPU(이하 tPU)를 C++ 언어를
 이용해 구현한 코드들에 대한 설명입니다.
 
 CPU, RAM, M0EMORY의 기능과 동작을 이해하고, 교수님께서 수업을 진행하면서 
