@@ -7,9 +7,9 @@
 	
 > ## tPU
  
-tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3부분으로 분류될 수 있습니다. 
+- tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3부분으로 분류될 수 있습니다. 
 
-또한, tPU의 동작을 완전하게 설명하기 위해서는 CMemory와 CCode라는 부분도 추가적으로 필요합니다.
+- 또한, tPU의 동작을 완전하게 설명하기 위해서는 CMemory와 CCode라는 부분도 추가적으로 필요합니다.
 
 
 >## Structure of tPU by Image
