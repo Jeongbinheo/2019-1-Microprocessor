@@ -246,14 +246,17 @@ bool CT1DecodeDirectFetch::do_decode(){
 			};
 ```
 
-   - **CExecute 에는 OPCODE 16개에 해당하는 기능이 정의되어 있는데 그 중에서**
+  **→CExecute 에는 OPCODE 16개에 해당하는 기능이 정의되어 있는데 그 중에서**
    
    - **MOV3** (OP1이 지정하는 Register에 OP2의 값을 넣는 기능),
    
    - **MUL** (OP1, OP2가 지정하는 Register 내부의 값을 곱하여 OP1에 저장) 
    
-   두 가지에 대해서 코드로 살펴보자.
-    
+  **두 가지에 대해서 코드로 살펴보자.**
+  
+
+  `※CExecute 클래스에서는 m_decode, m_regs, m_mems의 함수도 같이 사용됨`
+  
 ```c++
 	<CExecute.cpp>
 
@@ -277,7 +280,7 @@ bool CT1DecodeDirectFetch::do_decode(){
     		}else if(m_decode_unit.get_opcode() == MUL){
                  
 			unsigned int reg_n = m_decode_unit.get_op1();
-                     	unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xf;
+                     	unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xf; //8비트 OPERAND2를 4비트로 마스킹하는과정.
 
                     	int Rn = m_regs.read_from_reg(reg_n);
                      	int Rm = m_regs.read_from_reg(reg_m);
