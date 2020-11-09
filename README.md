@@ -112,6 +112,7 @@ string& CFlash1KWord::code_at(int addr){
 when the tPU unit gets the .bin file which is written by binary code, you can see the technique of filei/o.
 Also, this code has the function which change the string of binary code to real binary number sequence.  
 
+-----
 
  >>### CDecode
    
@@ -199,7 +200,8 @@ bool CT1DecodeDirectFetch::do_decode(){
 }
 
  ```
-  
+ -----
+ 
  ### **CExecute**
  ```c++
  
