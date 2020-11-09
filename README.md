@@ -316,7 +316,8 @@ bool CT1DecodeDirectFetch::do_decode(){
    #### [CRegister.cpp](https://github.com/Jeongbinheo/2019-1-Microprocessor/blob/master/CRegister.cpp) (클릭 시 전체 코드 페이지로 이동)
    #### [CRegister.h](https://github.com/Jeongbinheo/2019-1-Microprocessor/blob/master/CRegister.h) (클릭 시 전체 코드 페이지로 이동)
    
-   `PC와 관련된 함수` 코드
+   
+   **`PC와 관련된 함수 코드`**
    
 ```c++
 
@@ -327,7 +328,9 @@ bool CT1DecodeDirectFetch::do_decode(){
 
 ```
 
-   **`show_regs() 함수 코드`** `for 반복문을 이용해 read_from_reg()함수 반복하여 print`
+   
+   **`show_regs() 함수 코드`:** `for 반복문을 이용해 read_from_reg()함수 반복하여 print`
+   
    
 ```c++
 	<CRegister.cpp>
