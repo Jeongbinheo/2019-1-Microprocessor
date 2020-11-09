@@ -205,10 +205,15 @@ bool CT1DecodeDirectFetch::do_decode(){
 >> ### **CExecute**
 
  - Decode에서 OPCODE, OP1, OP2의 비트를 얻었고, OPCODE에 알맞은 동작을 실행시키는 과정을 담당하는 클래스
+   
+   ####  `>>  Let's see the Code`  
+   #### [CExecute.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CExecute.cpp) (클릭 시 전체 코드 페이지로 이동)
+   #### [CExecute.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CExecute.h) (클릭 시 전체 코드 페이지로 이동)
+
 
  - **`CExecute의 구조 및 함수`** 
  
-```c++
+```C++
  
 	<CExecute.h>
  
@@ -230,9 +235,12 @@ bool CT1DecodeDirectFetch::do_decode(){
 		class CT1ExecuteTinyUnit: public CExecute{
 			public:
     				CT1ExecuteTinyUnit(CT1DecodeDirectFetch& decode,C16RegisterFile& regs,CSRAM_256w& mems) 
-    				: m_decode_unit(decode), m_regs(regs), m_mems(mems){ }//initiate private member value
+    				: m_decode_unit(decode), m_regs(regs), m_mems(mems){ }
+				
+				//initiate private member value
     				// m_deocde_unit = decode;
     				// m_regs = regs;
+				
     				virtual ~CT1ExecuteTinyUnit(){ }	
 
     				int do_execute();
