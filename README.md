@@ -316,53 +316,42 @@ bool CT1DecodeDirectFetch::do_decode(){
    #### [CRegister.cpp](https://github.com/Jeongbinheo/2019-1-Microprocessor/blob/master/CRegister.cpp) (클릭 시 전체 코드 페이지로 이동)
    #### [CRegister.h](https://github.com/Jeongbinheo/2019-1-Microprocessor/blob/master/CRegister.h) (클릭 시 전체 코드 페이지로 이동)
    
+   `PC와 관련된 함수` 코드
    
 ```c++
 
-<CRegsiter.h>
 
-#include <iostream>
-#pragma once
-using namespace std;
-
-class CRegister {
-public:
-    CRegister(){ }
-    virtual ~CRegister(){ }
-};
-
-class C16RegisterFile : public CRegister{
-public:
-    C16RegisterFile():m_PC(0) {}
-    virtual ~C16RegisterFile() {}
-
-    void write_on_reg(unsigned int index, int data){m_regs[index] = data;}
-    int read_from_reg(unsigned int index)          {return m_regs[index];}
-    
-    int get_PC(){return m_PC;}
-    void set_PC(int pc){m_PC = pc;}
-    void show_regs();
-
-private:
-    int m_regs[16];
-    int m_PC;
-};
-
-<CRegister.cpp>
-
-#include "CRegister.h"
-
-void C16RegisterFile::show_regs(){
-    cout << "------ register file ------" << endl;
-    
-    for(int i = 0; i<16; i++){
-        cout <<"REG"<<i<<": "<< read_from_reg(i)<<endl;
-    }
-}
+    	int get_PC(){return m_PC;}
+   	 void set_PC(int pc){m_PC = pc;}
+  	  void show_regs();
 
 ```
 
+   **`show_regs() 함수 코드`** `for 반복문을 이용해 read_from_reg()함수 반복하여 print`
+   
+```c++
+	<CRegister.cpp>
+
+	#include "CRegister.h"
+
+	void C16RegisterFile::show_regs(){
+ 	   cout << "------ register file ------" << endl;
+    
+ 	   for(int i = 0; i<16; i++){
+	        cout <<"REG"<<i<<": "<< read_from_reg(i)<<endl;
+ 	   }
+	}
+
+```
+-----
+
+
 ### **CMemory**
+ - 컴퓨터의 구조에서 RAM에 해당하는 부분을 클래스로 구현한 내용 
+ - **256Byte의 크기(배열로 크기 정의)를 가지고 있으며 Register와 비슷하게 write, read, show 함수를 가지고 있다.**
+ 
+
+
 ```c++
 <CMemory>
 
