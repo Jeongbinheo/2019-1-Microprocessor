@@ -26,9 +26,9 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
 
 3. [CExecute](README.md#CExecute)
 
-4. [CMemory](README.md#CMemory)
+4. [CRegister](README.md#CRegister)
 
-5. [CRegister](README.md#CRegister)
+5. [CMemory](README.md#CMemory)
 
 -----
 
@@ -306,6 +306,59 @@ bool CT1DecodeDirectFetch::do_decode(){
 
 -----
 
+### **CRegister** 
+ - CPU의 Register 동작을 구현한 클래스로 Register내부의 데이터를 read, write하고, 
+   PC(Program counter)값을 증가시키는 함수가 포함되어 있는 클래스
+   
+   ####  `>>  Let's see the Code`  
+   #### [CExecute.cpp](https://github.com/Jeongbinheo/Microprocessor/blob/master/CExecute.cpp) (클릭 시 전체 코드 페이지로 이동)
+   #### [CExecute.h](https://github.com/Jeongbinheo/Microprocessor/blob/master/CExecute.h) (클릭 시 전체 코드 페이지로 이동)
+   
+   
+```c++
+
+<CRegsiter.h>
+
+#include <iostream>
+#pragma once
+using namespace std;
+
+class CRegister {
+public:
+    CRegister(){ }
+    virtual ~CRegister(){ }
+};
+
+class C16RegisterFile : public CRegister{
+public:
+    C16RegisterFile():m_PC(0) {}
+    virtual ~C16RegisterFile() {}
+
+    void write_on_reg(unsigned int index, int data){m_regs[index] = data;}
+    int read_from_reg(unsigned int index)          {return m_regs[index];}
+    
+    int get_PC(){return m_PC;}
+    void set_PC(int pc){m_PC = pc;}
+    void show_regs();
+
+private:
+    int m_regs[16];
+    int m_PC;
+};
+
+<CRegister.cpp>
+
+#include "CRegister.h"
+
+void C16RegisterFile::show_regs(){
+    cout << "------ register file ------" << endl;
+    
+    for(int i = 0; i<16; i++){
+        cout <<"REG"<<i<<": "<< read_from_reg(i)<<endl;
+    }
+}
+
+```
 
 ### **CMemory**
 ```c++
@@ -353,51 +406,6 @@ void CSRAM_256w :: show_mems(unsigned int start_addr, unsigned int end_addr){
     }
     cout << endl; 
 };
-
-```
-### **CRegister**
-```c++
-
-<CRegsiter.h>
-
-#include <iostream>
-#pragma once
-using namespace std;
-
-class CRegister {
-public:
-    CRegister(){ }
-    virtual ~CRegister(){ }
-};
-
-class C16RegisterFile : public CRegister{
-public:
-    C16RegisterFile():m_PC(0) {}
-    virtual ~C16RegisterFile() {}
-
-    void write_on_reg(unsigned int index, int data){m_regs[index] = data;}
-    int read_from_reg(unsigned int index)          {return m_regs[index];}
-    
-    int get_PC(){return m_PC;}
-    void set_PC(int pc){m_PC = pc;}
-    void show_regs();
-
-private:
-    int m_regs[16];
-    int m_PC;
-};
-
-<CRegister.cpp>
-
-#include "CRegister.h"
-
-void C16RegisterFile::show_regs(){
-    cout << "------ register file ------" << endl;
-    
-    for(int i = 0; i<16; i++){
-        cout <<"REG"<<i<<": "<< read_from_reg(i)<<endl;
-    }
-}
 
 ```
 
