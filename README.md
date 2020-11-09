@@ -308,7 +308,7 @@ bool CT1DecodeDirectFetch::do_decode(){
 
 -----
 
-### **CRegister** 
+>> ### **CRegister** 
  - CPU의 Register 동작을 구현한 클래스로 Register내부의 데이터를 read, write하고, 
    PC(Program counter)값을 증가시키는 함수가 포함되어 있는 클래스
    
@@ -350,7 +350,7 @@ bool CT1DecodeDirectFetch::do_decode(){
 -----
 
 
-### **CMemory**
+>> ### **CMemory**
  - 컴퓨터의 구조에서 RAM에 해당하는 부분을 클래스로 구현한 내용 
  - **256Byte의 크기(배열로 크기 정의)를 가지고 있으며 Register와 비슷하게 write, read, show 함수를 가지고 있다.**
  
