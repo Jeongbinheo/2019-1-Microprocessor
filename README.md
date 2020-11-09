@@ -47,71 +47,73 @@ tPU는 Tiny Process Unit의 약자로, 크게 CDecode, CExecute, and CRegsiter 3
    [CCode.h](https://github.com/Jeongbinheo/2019-1-Microprocessor/blob/master/CCode.h) (클릭 시 전체 코드 페이지로 이동)
 
 ```c++
-<CCode.h>
+	<CCode.h>
 
-#include <iostream>
-#pragma once
+		#include <iostream>
+		#pragma once
  
-using namespace std;
+		using namespace std;
 
-class CCode{
+		class CCode{
 
-public: 
-	CCode()  {}
-	virtual ~CCode() {}
+		public: 
+			CCode()  {}
+			virtual ~CCode() {}
 
-private:
-};
+		private:
+		};
 
-class CFlash1KWord : public CCode{
-public: 
-	CFlash1KWord(char* filename, int line);
-	virtual ~CFlash1KWord();
+		class CFlash1KWord : public CCode{
+		public: 
+			CFlash1KWord(char* filename, int line);
+			virtual ~CFlash1KWord();
 	
-	string& code_at(int addr); 
-	//string&: reference return type(like pointer)
-	
-	int code_memory_size(){ return 1024; }
+			string& code_at(int addr); 
+			//string&: reference return type(like pointer)
+			
+			int code_memory_size(){ return 1024; }
 
-private:
-	string m_filename;
-	int m_line;
-	string m_code[1024];
-};
+		private:
+			string m_filename;
+			int m_line;
+			string m_code[1024];
+		};
 
-<CCode.cpp>
-#include "CCode.h"
-#include <iostream>
-#include <fstream>
+		<CCode.cpp>
+		#include "CCode.h"
+		#include <iostream>
+		#include <fstream>
 
-using namespace std;
+		using namespace std;
 
-CFlash1KWord::CFlash1KWord(char* filename, int line){
+		CFlash1KWord::CFlash1KWord(char* filename, int line){
 
-	m_filename=filename;
-	m_line=line;
-	ifstream infile;
-	infile.open(filename, ios::in);
+			m_filename=filename;
+			m_line=line;
+			ifstream infile;
+			infile.open(filename, ios::in);
 
-	int addr = 0;
-	char bit;
-	while (addr<line){
-		for(int i=0; i<16; i++){
-			infile >> bit;
-			m_code[addr]= m_code[addr] + bit;
+			int addr = 0;
+			char bit;
+			while (addr<line){
+				for(int i=0; i<16; i++){
+					infile >> bit;
+					m_code[addr]= m_code[addr] + bit;
+					}
+				addr++;
 			}
-		addr++;
-	}
-	infile.close();
-}
+			infile.close();
+		}
 
-CFlash1KWord :: ~CFlash1KWord(){ }
+		CFlash1KWord :: ~CFlash1KWord(){ }
 
-string& CFlash1KWord::code_at(int addr){
-	return m_code[addr];
-}
+		string& CFlash1KWord::code_at(int addr){
+			return m_code[addr];
+		}
 ```
+<br/>
 when the tPU unit gets the .bin file which is written by binary code, you can see the technique of filei/o.
+<br>
 Also, this code has the function which change the string of binary code to real binary number sequence.  
 
 -----
@@ -128,11 +130,11 @@ CCode를 통해 받아들인 비트열을 OPCODE, OPERAND1, OPERAND2로 분해�
 	 
 ```c++
 
-typedef struct {
-	unsigned int OPCODE : 4;
-	unsigned int OP1    : 4;
-		 int OP2    : 8;
-} SInstruction;
+	typedef struct {
+		unsigned int OPCODE : 4;
+		unsigned int OP1    : 4;
+			 int OP2    : 8;
+	} SInstruction;
 
 
     Execution Unit에 사용되는 Instruction Code는 struct로 다음과 같은 비트로 정의됨. 
@@ -148,58 +150,58 @@ typedef struct {
 
 ```c++
 
-bool CT1DecodeDirectFetch::do_decode(){
+		bool CT1DecodeDirectFetch::do_decode(){
 
-    int decoded = 0;
+  		  int decoded = 0;
         
-    // Decoding OPcode
-    if(m_inst_buffer[0] == '1')
-        decoded |= 8; 
-    if(m_inst_buffer[1] == '1')
-        decoded |= 4; 
-    if(m_inst_buffer[2] == '1')
-        decoded |= 2; 
-    if(m_inst_buffer[3] == '1')
-        decoded |= 1; 
+  		  // Decoding OPcode
+  		  if(m_inst_buffer[0] == '1')
+  		      decoded |= 8; 
+ 		   if(m_inst_buffer[1] == '1')
+ 		       decoded |= 4; 
+  		  if(m_inst_buffer[2] == '1')
+  		      decoded |= 2; 
+  		  if(m_inst_buffer[3] == '1')
+   		     decoded |= 1; 
 
-    m_instruction.OPCODE = decoded;
+  		  m_instruction.OPCODE = decoded;
 
-   decoded = 0;
-   //Decoding OP1
-    if(m_inst_buffer[4] == '1')
-        decoded |= 8; 
-    if(m_inst_buffer[5] == '1')
-        decoded |= 4; 
-    if(m_inst_buffer[6] == '1')
-        decoded |= 2; 
-    if(m_inst_buffer[7] == '1')
-        decoded |= 1; 
+  		 decoded = 0;
+  		 //Decoding OP1
+  		  if(m_inst_buffer[4] == '1')
+  		      decoded |= 8; 
+  		  if(m_inst_buffer[5] == '1')
+    		    decoded |= 4; 
+   		 if(m_inst_buffer[6] == '1')
+   		     decoded |= 2; 
+  		  if(m_inst_buffer[7] == '1')
+  		      decoded |= 1; 
 
-    m_instruction.OP1 = decoded;
+   		 m_instruction.OP1 = decoded;
 
-    decoded = 0;
-    //Decoding OP2
-    if(m_inst_buffer[8] == '1')
-        decoded |= 128; 
-    if(m_inst_buffer[9] == '1')
-        decoded |= 64; 
-    if(m_inst_buffer[10] == '1')
-        decoded |= 32; 
-    if(m_inst_buffer[11] == '1')
-        decoded |= 16;
-    if(m_inst_buffer[12] == '1')
-        decoded |= 8; 
-    if(m_inst_buffer[13] == '1')
-        decoded |= 4; 
-    if(m_inst_buffer[14] == '1')
-        decoded |= 2; 
-    if(m_inst_buffer[15] == '1')
-        decoded |= 1; 
+   		 decoded = 0;
+   		 //Decoding OP2
+    		if(m_inst_buffer[8] == '1')
+    		    decoded |= 128; 
+   		 if(m_inst_buffer[9] == '1')
+    		    decoded |= 64; 
+  		  if(m_inst_buffer[10] == '1')
+ 		       decoded |= 32; 
+ 		   if(m_inst_buffer[11] == '1')
+ 		       decoded |= 16;
+		    if(m_inst_buffer[12] == '1')
+ 		       decoded |= 8; 
+ 		   if(m_inst_buffer[13] == '1')
+ 		       decoded |= 4; 
+   		 if(m_inst_buffer[14] == '1')
+   		     decoded |= 2; 
+ 		   if(m_inst_buffer[15] == '1')
+   		     decoded |= 1; 
  
-    m_instruction.OP2 = decoded;
+  		  m_instruction.OP2 = decoded;
    
-    return true;
-}
+  		  return true;
+		}
 
  ```
  -----
@@ -359,49 +361,49 @@ bool CT1DecodeDirectFetch::do_decode(){
 ```c++
 <CMemory>
 
-#include <iostream>
+		#include <iostream>
 
-#pragma once
+		#pragma once
 
-using namespace std;
+		using namespace std;
 
-class CMemory{
-public: 
-    CMemory(){}
-    virtual ~CMemory(){}
-};
+		class CMemory{
+		public: 
+ 		   CMemory(){}
+ 		   virtual ~CMemory(){}
+		};
 
-class CSRAM_256w: public CMemory{
+		class CSRAM_256w: public CMemory{
 
-public: 
-    CSRAM_256w(){}
-    virtual ~CSRAM_256w(){}
+		public: 
+  		  CSRAM_256w(){}
+  		  virtual ~CSRAM_256w(){}
 
-    void write_on_memory(unsigned int index, int data){ m_mems[index] = data; }; 
-    int read_from_memory(unsigned int index) {return m_mems[index];};
+    		void write_on_memory(unsigned int index, int data){ m_mems[index] = data; }; 
+   		 int read_from_memory(unsigned int index) {return m_mems[index];};
     
-    void show_mems(unsigned int start_addr, unsigned int end_addr);
+   		 void show_mems(unsigned int start_addr, unsigned int end_addr);
 
-private:
-    int m_mems[256];
+		private:
+  		  int m_mems[256];
   
-};
+		};
 
 <CMemory.cpp>
 
-#include "CMemory.h"
+		#include "CMemory.h"
 
-void CSRAM_256w :: show_mems(unsigned int start_addr, unsigned int end_addr){
+		void CSRAM_256w :: show_mems(unsigned int start_addr, unsigned int end_addr){
 
     
-    cout<< "------ memory Dump (addr: " << start_addr << "~" << end_addr << " )" << endl;
+   		 cout<< "------ memory Dump (addr: " << start_addr << "~" << end_addr << " )" << endl;
     
-    for(unsigned int i = start_addr; i<=end_addr; i++){
-        cout << read_from_memory(i) << " ";
-    }
-    cout << endl; 
-};
-
+   		 for(unsigned int i = start_addr; i<=end_addr; i++){
+    		    cout << read_from_memory(i) << " ";
+   		 }
+  		  cout << endl; 
+		};
+	
 ```
 
 -----
