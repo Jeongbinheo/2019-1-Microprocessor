@@ -204,89 +204,91 @@ bool CT1DecodeDirectFetch::do_decode(){
  
 >> ### **CExecute**
 
- Decode에서 OPCODE, OP1, OP2의 비트를 얻었고, OPCODE에 알맞은 동작을 실행시키는 과정을 담당하는 클래스
+ - Decode에서 OPCODE, OP1, OP2의 비트를 얻었고, OPCODE에 알맞은 동작을 실행시키는 과정을 담당하는 클래스
 
- ### 'CExecute의 구조 및 함수' 
+ - **`CExecute의 구조 및 함수`** 
  
 ```c++
  
-<CExecute.h>
+	<CExecute.h>
  
-	#include <iostream>
-	#include <stdlib.h>
-	#include "CDecode.h"
-	#include "CRegister.h"
-	#include "CMemory.h"
-	#pragma once
+		#include <iostream>
+		#include <stdlib.h>
+		#include "CDecode.h"
+		#include "CRegister.h"
+		#include "CMemory.h"
+		#pragma once
 
-	using namespace std;
+		using namespace std;
 
-	class CExecute {
-	public:
-    		CExecute(){}
-    		virtual ~CExecute(){}
-	};
-
-	class CT1ExecuteTinyUnit: public CExecute{
+		class CExecute {
 		public:
-    			CT1ExecuteTinyUnit(CT1DecodeDirectFetch& decode,C16RegisterFile& regs,CSRAM_256w& mems) 
-    			: m_decode_unit(decode), m_regs(regs), m_mems(mems){ }//initiate private member value
-    			// m_deocde_unit = decode;
-    			// m_regs = regs;
-    			virtual ~CT1ExecuteTinyUnit(){ }
-
-    			int do_execute();
-
-		private:
-
-    			CT1DecodeDirectFetch& m_decode_unit;
-    			C16RegisterFile&      m_regs;
-    			CSRAM_256w&           m_mems;
-
+    			CExecute(){}
+    			virtual ~CExecute(){}
 		};
+
+		class CT1ExecuteTinyUnit: public CExecute{
+			public:
+    				CT1ExecuteTinyUnit(CT1DecodeDirectFetch& decode,C16RegisterFile& regs,CSRAM_256w& mems) 
+    				: m_decode_unit(decode), m_regs(regs), m_mems(mems){ }//initiate private member value
+    				// m_deocde_unit = decode;
+    				// m_regs = regs;
+    				virtual ~CT1ExecuteTinyUnit(){ }	
+
+    				int do_execute();
+
+			private:
+
+    				CT1DecodeDirectFetch& m_decode_unit;
+    				C16RegisterFile&      m_regs;
+    				CSRAM_256w&           m_mems;
+
+			};
 ```
- - **CExecute 에는 OPCODE 16개에 해당하는 기능이 정의되어 있는데 그 중에서**
-   **MOV3** (OP1이 지정하는 Register에 OP2의 값을 넣는 기능),
-   **MUL** (OP1, OP2가 지정하는 Register 내부의 값을 곱하여 OP1에 저장) 
+
+   - **CExecute 에는 OPCODE 16개에 해당하는 기능이 정의되어 있는데 그 중에서**
    
-   두 가지에 대해서 코드로 살펴보기.
+   - **MOV3** (OP1이 지정하는 Register에 OP2의 값을 넣는 기능),
+   
+   - **MUL** (OP1, OP2가 지정하는 Register 내부의 값을 곱하여 OP1에 저장) 
+   
+   두 가지에 대해서 코드로 살펴보자.
     
 ```c++
-<CExecute.cpp>
+	<CExecute.cpp>
 
-#include "CExecute.h"
+		#include "CExecute.h"
 
-int clks[10] = {8,8,12,6,4,4,12,30,2,12};
+		int clks[10] = {8,8,12,6,4,4,12,30,2,12};
 
-int CT1ExecuteTinyUnit::do_execute(){
-   	//MOV3 R1 #2 
-    		if(m_decode_unit.get_opcode() == MOV3){
+		int CT1ExecuteTinyUnit::do_execute(){
+   			//MOV3 R1 #2 
+    			if(m_decode_unit.get_opcode() == MOV3){
 
-       		unsigned int reg_index = m_decode_unit.get_op1();
-                int data = m_decode_unit.get_op2();
+       			unsigned int reg_index = m_decode_unit.get_op1();
+      		        int data = m_decode_unit.get_op2();
       		
-		m_regs.write_on_reg(reg_index,data);
+			m_regs.write_on_reg(reg_index,data);
       		
-		m_regs.set_PC(m_regs.get_PC()+1);   
+			m_regs.set_PC(m_regs.get_PC()+1);   
         
-	return clks[MOV3];
+			return clks[MOV3];
 
-    
-                }else if(m_decode_unit.get_opcode() == MUL){
+    		}else if(m_decode_unit.get_opcode() == MUL){
                  
-		     unsigned int reg_n = m_decode_unit.get_op1();
-                     unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xf;
+			unsigned int reg_n = m_decode_unit.get_op1();
+                     	unsigned int reg_m = (m_decode_unit.get_op2()>>4)& 0xf;
 
-                     int Rn = m_regs.read_from_reg(reg_n);
-                     int Rm = m_regs.read_from_reg(reg_m);
+                    	int Rn = m_regs.read_from_reg(reg_n);
+                     	int Rm = m_regs.read_from_reg(reg_m);
 
-                     Rn = Rn * Rm;
+                     	Rn = Rn * Rm;
 
-                     m_regs.write_on_reg(reg_n, Rn);
+                     	m_regs.write_on_reg(reg_n, Rn);
 
-                     m_regs.set_PC(m_regs.get_PC()+1);
+                     	m_regs.set_PC(m_regs.get_PC()+1);
 
-                    return clks[MUL];
+                    	return clks[MUL];
                                                  
 ```
 
